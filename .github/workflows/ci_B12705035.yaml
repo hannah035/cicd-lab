@@ -3,7 +3,7 @@ name: CI Pipeline
 # pipeline 需要在 push 時自動執行
 on:
   push:
-    branches: [ "**" ]
+    branches: ['**']
 
 jobs:
   build-and-test:
