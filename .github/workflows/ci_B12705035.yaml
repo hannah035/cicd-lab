@@ -36,7 +36,7 @@ jobs:
 
       # 3. Test & Generate Report (改用 Vitest)
       - name: Run Tests
-        if: always() 
+        if: always()
         # 使用 vitest 執行測試，並同時在終端機(default)與檔案(junit)輸出結果
         run: npx vitest run --reporter=default --reporter=junit --outputFile=reports/junit.xml
 
