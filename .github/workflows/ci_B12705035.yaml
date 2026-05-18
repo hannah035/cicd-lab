@@ -34,18 +34,17 @@ jobs:
       - name: Prettier Check
         run: npx prettier --check .
 
-      # 3. Test & Generate Report
+      # 3. Test & Generate Report (改用 Vitest)
       - name: Run Tests
-        run: npx jest --ci --reporters=default --reporters=jest-junit
-        env:
-          JEST_JUNIT_OUTPUT_DIR: ./reports
-          JEST_JUNIT_OUTPUT_NAME: jest-junit.xml
+        if: always() 
+        # 使用 vitest 執行測試，並同時在終端機(default)與檔案(junit)輸出結果
+        run: npx vitest run --reporter=default --reporter=junit --outputFile=reports/junit.xml
 
       # 4. 將測試結果顯示於 GitHub actions 結果頁面
       - name: Publish Test Results
         uses: dorny/test-reporter@v1
-        if: success() || failure() # 確保即使測試失敗，也會執行此步驟來顯示報表
+        if: success() || failure()
         with:
-          name: Jest Test Results
-          path: reports/jest-junit.xml
-          reporter: jest-junit
+          name: Vitest Test Results
+          path: reports/junit.xml
+          reporter: java-junit # Vitest 產出的 junit 格式，可以用 java-junit 解析器來讀取
